@@ -87,14 +87,14 @@ for (i in 1:length(data)) {
 rownames(seq_matrix)=col_one
 seq_matrix=seq_matrix[,-1]
 
-save(file="MCF7.RData",GSEs,seq_matrix)
-load(file="MCF7.RData")
-
-
 #### download annotations
-
 urla="https://www.ncbi.nlm.nih.gov/geo/download/?format=file&type=rnaseq_counts&file=Human.GRCh38.p13.annot.tsv.gz"
 annot <- data.table::fread(urla, verbose=F,header=T, quote="", stringsAsFactors=F, data.table=F)[,1:3]
 #or
 #system("wget https://www.ncbi.nlm.nih.gov/geo/download/?format=file&type=rnaseq_counts&file=Human.GRCh38.p13.annot.tsv.gz")
 #annot=read.delim("../../Human.GRCh38.p13.annot.tsv.gz")[,1:3]
+
+save(file="MCF7.RData",GSEs,seq_matrix,annot)
+#load(file="MCF7.RData")
+
+
