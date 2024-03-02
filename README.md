@@ -1,4 +1,4 @@
-# MultiCells - "Single Bulk" Cell Analysis in R
+# MultiCells - "Single Bulk" Cell Analysis in Linux and R
 
 MultiCells is a project built upon the necessity of **evaluating the real differences in cell lines supposed to be almost identical**.
 
