@@ -1,0 +1,26 @@
+They follow three modes of creating and analysing matrices supported by groupPrepare
+
+#create the actual rnorm data
+data=data.frame(matrix(rnorm(10000),nrow=100),row.names = paste0("G", 1:100))
+colnames(data)=paste0("S", 1:100)
+
+#PCA
+testPCA=prcomp(data)$rotation[,1:2]
+
+#t-distributed stochastic neighbor embedding
+library(Rtsne)
+testTSNE=Rtsne(t(as.matrix(data)), dims = 2, perplexity=4, max_iter = 500,check_duplicates = FALSE)
+
+#non-metric dimensional scaling
+testNMDS=metaMDS(as.matrix(data))$points
+
+#groupCapture usage example
+#g:numnber of groups to form
+#p:points for selection polygon
+#out:output type among "data", "samples", or "bool". 
+#data:if out is "data", the original data matrix must be provided
+
+groups=groupCapture(testPCA,g=2,p=5,out="data",data=data)
+groups=groupCapture(testTSNE,g=2,p=5,out="samples",data=data)
+groups=groupCapture(testNMDS,g=2,p=5,out="samples")
+
