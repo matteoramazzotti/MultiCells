@@ -1,5 +1,7 @@
-### NOTE: this example is for the studying the breast cell line MCF7 ###
+### NOTE: this example is for studying the breast cell line MCF7 ###
 ###   to chenge the target, simply replace "MCF7" with your target   ###  
+
+#open a linux/unix bash
 
 #create the folder structure to accomodate cell type MCF7
 mkdir MCF7
@@ -8,11 +10,12 @@ cd MCF7/seq
 
 #go to https://www.ncbi.nlm.nih.gov/gds
 
-#search NCBI Geo DataSets with
+#paste the following at NCBI Geo DataSets
 MCF7[All Fields] AND "breast"[All Fields] AND "Homo sapiens"[porgn] AND "gse"[Filter] AND "Expression profiling by high throughput sequencing"[Filter]
-#then Send to file Summary (text) -> save as gds_result_seq.txt in MCF7/seq
+
+Send the results to file Summary (text) -> save as gds_result_seq.txt in MCF7/seq
 
 #isolate series ID 
 grep '^Series' gds_result_seq.txt | perl -ne '/Accession: (GSE\d+)/;print $1,"\n"' > GSE_seq
 
-#the GSE_seq file will guide the download script
+#the GSE_seq file will guide the download script GSE_download.R
