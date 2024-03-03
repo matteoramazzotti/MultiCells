@@ -22,10 +22,10 @@ After such preparation a data matrix is returned to analyzed with
 
 **groupCapture.R**
 
-an interactive tool to capture groups of samples identified as points in a 2d scatterplot produced by e.g. PCA, tSNE or umap plots. 
+an interactive tool to capture groups of samples identified as points in a 2d scatterplot produced by dimensionality reduction techniques such as e.g. PCA, tSNE or nmds 
 
 This interactive approach is needed since the groups to be formed and compared are not predetermined (e.g. all samples are supposed to be identical), 
 rather they arise upon observation. Basically, the user draws polygons around interesing groups and the script returns data frames containing 
-ready to used data matirx for easy testing. So easy.
+ready to used data matrices for testing. So easy.
 
-Being RNA-seq data, the obtained data can be analyzed with popular packages such as DESeq, Limma and so on. **This is up to you**
+Being RNA-seq count data, the obtained data can be analyzed with popular packages such as DESeq, EdgeR, Limma and so on. **This is up to you**
