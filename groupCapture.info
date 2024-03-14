@@ -1,4 +1,4 @@
-They follow three modes of creating and analysing matrices supported by groupPrepare
+#there follow three modes of creating and analysing matrices supported by groupPrepare
 
 #create the actual rnorm data
 data=data.frame(matrix(rnorm(10000),nrow=100),row.names = paste0("G", 1:100))
