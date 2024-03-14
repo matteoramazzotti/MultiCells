@@ -95,15 +95,5 @@ annot <- data.table::fread(urla, verbose=F,header=T, quote="", stringsAsFactors=
 #annot=read.delim("../../Human.GRCh38.p13.annot.tsv.gz")[,1:3]
 
 save(file="MCF7.RData",GSEs,seq_matrix,annot)
-#load(file="MCF7.RData")
 
-#create a DESeq object for testing
-library("DESeq2")
-colData=data.frame("names"=colnames(seq_matrix),"GSE"=gsub("_.+","",perl=T,names(seq_matrix)))
-dds <- DESeqDataSetFromMatrix(countData = as.matrix(seq_matrix), colData = colData, design = ~ 1)
-vsd <- vst(dds, blind=FALSE)
-plotPCA(vsd, intgroup=c("GSE"))
-pca=plotPCA(vsd, intgroup=c("GSE"),returnData=T)
-#now the pca variable is storing the two PC1 and PC2 to be used in groupcapture.R
-source("groupcapture.R")
 
