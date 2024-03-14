@@ -1,25 +1,47 @@
-#there follow three modes of creating and analysing matrices supported by groupPrepare
+#there follow examples of creating and analysing matrices supported by groupPrepare
 
-#create the actual rnorm data
-data=data.frame(matrix(rnorm(10000),nrow=100),row.names = paste0("G", 1:100))
-colnames(data)=paste0("S", 1:100)
-
-#PCA
-testPCA=prcomp(data)$rotation[,1:2]
-
-#t-distributed stochastic neighbor embedding
-library(Rtsne)
-testTSNE=Rtsne(t(as.matrix(data)), dims = 2, perplexity=4, max_iter = 500,check_duplicates = FALSE)
-
-#non-metric dimensional scaling
-testNMDS=metaMDS(as.matrix(data))$points
-
+#let's first load groupCapture
+source(groupCapture.R)
 #groupCapture usage example
 #g:numnber of groups to form
 #p:points for selection polygon
 #out:output type among "data", "samples", or "bool". 
 #data:if out is "data", the original data matrix must be provided
 
+#############
+#data #1. load the matrix from 3.data_prepare.R source
+
+load(file="MCF7.RData")
+#create a DESeq object for testing
+library("DESeq2")
+colData=data.frame("names"=colnames(seq_matrix),"GSE"=gsub("_.+","",perl=T,names(seq_matrix)))
+#now create the DESeq object
+dds <- DESeqDataSetFromMatrix(countData = as.matrix(seq_matrix), colData = colData, design = ~ 1)
+#counts need to be normalized for PCA
+vsd <- vst(dds, blind=FALSE)
+#the PCA plot
+plotPCA(vsd, intgroup=c("GSE"))
+#more important: returnData=T emits the towo PCA columns
+MCF7pca=plotPCA(vsd, intgroup=c("GSE"),returnData=T)
+#now the MCF7pca variable is storing the two PC1 and PC2 to be used in groupcapture.R
+
+############
+#data #2. create a rnorm fake matrix for testing
+
+data=data.frame(matrix(rnorm(10000),nrow=100),row.names = paste0("G", 1:100))
+colnames(data)=paste0("S", 1:100)
+
+#then run a PCA
+testPCA=prcomp(data)$rotation[,1:2]
+#OR a t-distributed stochastic neighbor embedding
+library(Rtsne)
+testTSNE=Rtsne(t(as.matrix(data)), dims = 2, perplexity=4, max_iter = 500,check_duplicates = FALSE)
+#OR a non-metric dimensional scaling
+library(vegan)
+testNMDS=metaMDS(as.matrix(data))$points
+
+
+groups=groupCapture(MCF7pca,g=2,p=5,out="data",data=vsd)
 groups=groupCapture(testPCA,g=2,p=5,out="data",data=data)
 groups=groupCapture(testTSNE,g=2,p=5,out="samples",data=data)
 groups=groupCapture(testNMDS,g=2,p=5,out="samples")
