@@ -2,7 +2,7 @@
 #this procedure saves results in the file "seq_exp_log"
 
 #delete existing log files
-system(("unlink seq_exp_log")
+system("unlink seq_exp_log")
 
 source("RNAseq_autodown.R")
 seq_exp=read.delim("GSE_seq")[,1]
