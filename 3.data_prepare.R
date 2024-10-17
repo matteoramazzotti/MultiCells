@@ -19,7 +19,7 @@ data=list()
 data_colnames="Gene"
 
 #for each GSE
-#in case some GSE breaks the download, jump to the next gse by chencing the start below
+#in case some GSE breaks the download, jump to the next gse by changing the start below
 start=1
 for (i in start:length(GSEs)) {
 	#catch selected sample names in GSE 
