@@ -25,7 +25,7 @@ system("sort seq_exp_log | uniq | grep -i MCF7 | perl -ne 's/^ //;print' > seq_e
 #this strips white specaes at the beginning of the line
 system("perl -ne 's/^ //;print' seq_exp_log_MCF7 > seq_exp_log_MCF7")
 
-#manual selection of experiments based on the "seq_exp_log_MCF7" file
+#now a manual selection of experiments based on the "seq_exp_log_MCF7" file is needed.
 #the aim is to create a two column data frame with
 #GSExxxx    sample_name
 #named seq_exp_log_MCF7_ok
