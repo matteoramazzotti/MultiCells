@@ -14,7 +14,7 @@ The **MultiCells** approach exploits the NCBI GEO database to download bulk RNA-
 It contains:
 - a strategy to query NCI GEO datasets for specific cells line-based experiments
 - a function that retrieves sample names from the selected experients to allow a proper evaluation of cell identity
-- a function to download and assemble RNA-seq data exactly corresponding to the selected samples from multiple GEO series ((e.g. subsets of intersting samples only)
+- a function to download and assemble RNA-seq data exactly corresponding to the selected samples from multiple GEO series (e.g. subsets of intersting samples only)
 
 It is useful to remind that RNA-seq data form NCBI are not user supplied but are **uniformly remapped, quantified and annotated against a common referece genome**, currently the Human.GRCh38.p13.
 
