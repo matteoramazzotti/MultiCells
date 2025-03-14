@@ -2,7 +2,7 @@
 
 MultiCells is a project built upon the necessity of **evaluating the real differences in cell lines supposed to be almost identical**.
 
-We devises this **"single bulk" cell analysis** as a way to compare the RNA-seq based expression profiles among cell lines from different experiments.  
+We devise this **"single bulk" cell analysis** as a way to compare the RNA-seq based expression profiles among cell lines from different experiments.  
 
 **Possible uses**
 - Check consistency across untrated cell lines from different experiments 
