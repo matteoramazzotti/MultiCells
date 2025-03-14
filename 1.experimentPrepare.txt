@@ -1,4 +1,4 @@
-### NOTE: this example is for studying the breast cell line MCF7 ###
+ct### NOTE: this example is for studying the breast cell line MCF7 ###
 ###   to chenge the target, simply replace "MCF7" with your target   ###  
 
 #open a linux/unix bash
@@ -18,4 +18,4 @@ Send the results to file Summary (text) -> save as gds_result_seq.txt in MCF7/se
 #isolate series ID 
 grep '^Series' gds_result_seq.txt | perl -ne '/Accession: (GSE\d+)/;print $1,"\n"' > GSE_seq
 
-#the GSE_seq file will guide the download script GSE_download.R
+#the GSE_seq file will guide the download script GSE_collect.R
