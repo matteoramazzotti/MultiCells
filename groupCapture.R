@@ -29,13 +29,14 @@ groupCapture = function(
 	p=5,
 	lwd=2,
 	pch=1,
-	out=c("data","samples","bool"),
+	out=c("data","samples","bool","df"),
 	auto_scale=TRUE,
 	range=c(-100,100),
 	labels_on = TRUE,
 	labels = c("")
 ) {
 	res=list()
+
 	if (auto_scale) {
 		x_min <- min(input[,1])
 		x_max <- max(input[,1])
@@ -53,7 +54,7 @@ groupCapture = function(
 		ylab = ylab,
 		pch = pch,
 		col = "steelblue"
-	) +
+	)
 	text(
 		pca$x[,1], 
 		pca$x[,2], 
@@ -68,9 +69,10 @@ groupCapture = function(
 		lines(clickX,clickY,col=i,lwd=lwd)
 		d=data.frame(clickX,clickY)
 		sel=in.out(as.matrix(d),as.matrix(input))
-		if (out[1]=="data") {
-			if(exists("data")) { 
-				res[[i]]=data[,sel]
+		if (out[1]=="data" || out[1]=="df") {
+			if(exists("data")) {
+				ind<-colnames(data)[sel]
+				res[[i]]=data.frame(data[,ind])
 			} else {
 				cat("no data provided")
 				break()
@@ -82,6 +84,16 @@ groupCapture = function(
 		if(out[1]=="bool") {
 			res[[i]]=sel
 		}
+
 	}
-	res
+	if (out[1] == "df") {
+		tmp = res[[1]]
+		if (g>1) {
+			for (i in 2:g) {
+				tmp = cbind(tmp,res[[i]])
+			}
+		}
+		res = tmp
+	}
+	return(res)
 }
