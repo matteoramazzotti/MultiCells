@@ -20,7 +20,21 @@ library(mgcv)
 #out = "samples" emits a list of sample names per group
 #out = "bool" emits a list of true/false to be used in external selection
 
-groupCapture = function(input,g=1,p=5,lwd=2,pch=1,out=c("data","samples","bool"),data=NULL) {
+groupCapture = function(
+	input,
+	data=NULL,
+	xlab=c(""),
+	ylab=c(""),
+	g=1,
+	p=5,
+	lwd=2,
+	pch=1,
+	out=c("data","samples","bool"),
+	auto_scale=TRUE,
+	range=c(-100,100),
+	labels_on = TRUE,
+	labels = c("")
+) {
 	res=list()
 	plot(input[,1],input[,2],pch=pch)
 	for (i in 1:g) {
