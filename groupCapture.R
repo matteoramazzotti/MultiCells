@@ -36,15 +36,39 @@ groupCapture = function(
 	labels = c("")
 ) {
 	res=list()
-	plot(input[,1],input[,2],pch=pch)
+	if (auto_scale) {
+		x_min <- min(input[,1])
+		x_max <- max(input[,1])
+		y_min <- min(input[,2])
+		y_max <- max(input[,2])
+		max <- abs(round(max(x_max,y_max) + 10))
+		min <- abs(round(min(x_min,y_min) - 10))
+		range=c(-min,max)
+	}
+	plot(
+		input[,1], input[,2],
+		xlim = range,
+		ylim = range,
+		xlab = xlab,
+		ylab = ylab,
+		pch = pch,
+		col = "steelblue"
+	) +
+	text(
+		pca$x[,1], 
+		pca$x[,2], 
+		labels = labels,
+		pos = 3, 
+		cex = 0.3
+	)
 	for (i in 1:g) {
-		click <- locator(p)
+		click <- locator(p,type="l")
 		clickX=c(click$x,click$x[1])
 		clickY=c(click$y,click$y[1])
 		lines(clickX,clickY,col=i,lwd=lwd)
 		d=data.frame(clickX,clickY)
 		sel=in.out(as.matrix(d),as.matrix(input))
-		if (out=="data") {
+		if (out[1]=="data") {
 			if(exists("data")) { 
 				res[[i]]=data[,sel]
 			} else {
@@ -52,10 +76,10 @@ groupCapture = function(
 				break()
 			}				
 		}
-		if(out=="samples") {
+		if(out[1]=="samples") {
 			res[[i]]=rownames(input)[sel]
 		}
-		if(out=="bool") {
+		if(out[1]=="bool") {
 			res[[i]]=sel
 		}
 	}
