@@ -88,12 +88,15 @@ groupCapture = function(
 	}
 	if (out[1] == "df") {
 		tmp = res[[1]]
+		tmp2 = data.frame(SAMPLE=colnames(tmp),GROUP=sapply(1:length(colnames(tmp)),function(x){paste0("G","1")}))
+
 		if (g>1) {
 			for (i in 2:g) {
 				tmp = cbind(tmp,res[[i]])
+				tmp2 = rbind(tmp2,data.frame(SAMPLE=colnames(res[[i]]),GROUP=sapply(1:length(colnames(res[[i]])),function(x){paste0("G",i)})))
 			}
 		}
-		res = tmp
+		res = list(tmp,tmp2)
 	}
 	return(res)
 }
