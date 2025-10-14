@@ -7,6 +7,8 @@ use XML::Simple;
 use Encode;
 use Encode::Guess;
 
+use File::Path qw(make_path);
+
 use IPC::Run 'run';
 
 use Getopt::Long;
@@ -65,6 +67,10 @@ if ($query_file) {
 	}
 	close(IN);
 }
+
+
+setup_dir("indexes");
+
 
 foreach my $qObj (@queries) {
 	open(OUT,">","indexes/query_$qObj->{id}.tsv");
@@ -188,6 +194,23 @@ foreach my $qObj (@queries) {
 	close(LOG);
 	if (scalar @queries > 1) {
 		sleep(10);
+	}
+}
+
+
+sub setup_dir{
+	my $dir = $_[0];
+	unless (-d $dir) {
+		print "Directory $dir does not exist. Creating $dir...\n";
+		eval {
+			make_path($dir);
+			print "Directory $dir created successfully.\n";
+		};
+		if ($@) {
+			die "Failed to create directory $dir: $@\n";
+		}
+	} else {
+		print "Directory $dir already exists, proceding to query\n";
 	}
 }
 
