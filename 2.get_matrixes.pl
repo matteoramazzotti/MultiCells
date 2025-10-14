@@ -5,6 +5,7 @@ use LWP::UserAgent;
 use Data::Dumper;
 use IPC::Run 'run';
 use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
+use File::Path qw(make_path);
 
 
 my $gse_sel_file = "selected_gse.txt";
@@ -23,6 +24,9 @@ while(<IN>) {
 	push(@gsms,$_);
 }
 close(IN);
+
+setup_dir("raw_counts");
+setup_dir("raw_counts/mat");
 
 my $header;
 my @matches;
@@ -45,7 +49,7 @@ my $global_match = join("\n",$header,@matches);
 my $global_match_tr = transpose_matrix(matrix=>$global_match);
 $global_match_tr =~ s/ /\t/g;
 
-open(OUT,">","raw_counts/matrix_2.tsv");
+open(OUT,">","raw_counts/matrix.tsv");
 print OUT $global_match_tr;
 close(OUT);
 
@@ -121,4 +125,20 @@ sub match_gsm {
 	my @cmd1 = ["grep","--perl-regex", $regex];
 	run @cmd1,"<",\$matrix, ">", \my $stdout;
 	return($stdout);
+}
+
+sub setup_dir{
+	my $dir = $_[0];
+	unless (-d $dir) {
+		print "Directory $dir does not exist. Creating $dir...\n";
+		eval {
+			make_path($dir);
+			print "Directory $dir created successfully.\n";
+		};
+		if ($@) {
+			die "Failed to create directory $dir: $@\n";
+		}
+	} else {
+		print "Directory $dir already exists, proceding to query\n";
+	}
 }
