@@ -22,3 +22,12 @@ RNAseq_autodown=function(id) {
 		cat("Broken link\n")
 	}
 }
+#GSE246796
+#https://www.ncbi.nlm.nih.gov/geo/download/?format=file&type=rnaseq_counts&acc=GSE246796&file=GSE246796_raw_counts_GRCh38.p13_NCBI.tsv.gz
+#https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE246796&format=file
+# GSE301426_BRCA_SLAM_CTratio_gs_counts.txt.gz
+# GSE99680_MCF7_CRISPR_GRHL2_Readcounts.csv.gz
+#MCF7[All Fields] AND "breast"[All Fields] AND "Homo sapiens"[porgn] AND "gse"[Filter] AND "Expression profiling by high throughput sequencing"[Filter] AND "GPL11154"[Platforms] 
+
+# esearch -db gds -query 'MCF7[All Fields] AND "breast"[All Fields] AND "Homo sapiens"[porgn] AND "gse"[Filter] AND "Expression profiling by high throughput sequencing"[Filter] AND "GPL11154"[All Fields]' | efetch -format summary
+# esearch -db sra -query PRJNA1285169 | efetch -format runinfo
