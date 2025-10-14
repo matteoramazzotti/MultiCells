@@ -23,7 +23,7 @@ while (<IN>) {
 close(IN);
 
 my $seen;
-my $db_file = "hsa.gene_info";
+my $db_file = "dbs/hsa.gene_info";
 open(IN,$db_file);
 while (<IN>) {
 	chomp;
