@@ -37,7 +37,7 @@ Being RNA-seq count data, the obtained data can be analyzed with popular package
 Start by making an index of the available GEOs, we will use a query to fetch all the high throughput sequencing MCF7 related experiments: 
 
 ```
-	query="expression profiling by high throughput sequencing"[Dataset Type] AND "MCF7"[All Fields] AND "rnaseq counts"[Filter] AND "Homo sapiens"[porgn] AND "breast"[All Fields]"
+	query='"expression profiling by high throughput sequencing"[Dataset Type] AND "MCF7"[All Fields] AND "rnaseq counts"[Filter] AND "Homo sapiens"[porgn] AND "breast"[All Fields]"'
 
 	perl 1.query_performer.pl -q '${query}' -p your_name_for_files_here
 ```
