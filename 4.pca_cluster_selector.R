@@ -3,7 +3,7 @@ source("groupCapture.R")
 
 counts <- read.delim("matrix_symbol.tsv",sep="\t",row.names = 1)
 # gsm_to_gse <- read.delim("gsm_to_gse_selected_no_singlets.tsv",sep="\t",header=FALSE )
-gsm_to_gse <- read.delim("gsm_to_gse_selected.tsv")
+gsm_to_gse <- read.delim("gsm_to_gse_selected.tsv",sep="\t",header=FALSE )
 counts <- counts[rowSums(counts) > 10, ] #remove low count genes before normalization
 
 
