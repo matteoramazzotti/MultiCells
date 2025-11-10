@@ -63,7 +63,7 @@ Make the selected_gsm.txt file, a list of unique GSMs from the downloaded index:
 Make the gsm_to_gse_selected.tsv file, a list of unique GSMs related to their GSE from the downloaded index:
 
 ```
-awk -F"\t" '{print $3"\t"$2}' mcf7_ephts_geo_index.tsv.selected > gsm_to_gse_selected.tsv
+awk -F"\t" '{print $3"\t"$2}' indexes/index.tsv.selected > gsm_to_gse_selected.tsv
 ```
 
 ### 2 - **2.get_matrixes.pl**
