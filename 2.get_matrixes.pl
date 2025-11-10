@@ -36,6 +36,7 @@ foreach my $gse (@gses) {
 	chomp $matrix;
 	save_matrix(path=>"raw_counts/mat/${gse}_raw.txt",matrix=>$matrix);
 	my $matrix_tr = transpose_matrix(matrix=>$matrix);
+	$matrix_tr = remove_empty_columns(matrix => $matrix_tr);
 	chomp $matrix_tr;
 	if (!$header){
 		$header = get_header(matrix=>$matrix_tr);
@@ -47,7 +48,8 @@ foreach my $gse (@gses) {
 }
 my $global_match = join("\n",$header,@matches);
 my $global_match_tr = transpose_matrix(matrix=>$global_match);
-$global_match_tr =~ s/ /\t/g;
+# $global_match_tr =~ s/ /\t/g;
+$global_match_tr = remove_empty_columns(matrix => $global_match_tr);
 
 open(OUT,">","raw_counts/matrix.tsv");
 print OUT $global_match_tr;
@@ -83,26 +85,73 @@ sub save_matrix {
 	close(OUT);
 }
 
+# sub transpose_matrix {
+# 	my %args = (
+# 		matrix => undef,
+# 		@_
+# 	);
+# 	my $matrix = $args{matrix};
+# 	my $tr_awk_line = '{ 
+#     for (i=1; i<=NF; i++)  {
+#       a[NR,i] = $i
+#     }} NF>p { p = NF } END {
+# 		 for(j=1; j<=p; j++) { 
+# 			str=a[1,j]
+# 		 for(i=2; i<=NR; i++){ str=str" "a[i,j]; } print str } 
+# 	}';
+
+# 	my @cmd1 = ["awk", $tr_awk_line];
+# 	run @cmd1,"<",\$matrix, ">", \my $stdout;
+# 	return($stdout);
+# }
+
 sub transpose_matrix {
-	my %args = (
-		matrix => undef,
-		@_
-	);
-	my $matrix = $args{matrix};
-	my $tr_awk_line = '{ 
-    for (i=1; i<=NF; i++)  {
-      a[NR,i] = $i
-    }} NF>p { p = NF } END {
-		 for(j=1; j<=p; j++) { 
-			str=a[1,j]
-		 for(i=2; i<=NR; i++){ str=str" "a[i,j]; } print str } 
-	}';
+	my %args = ( matrix => undef, @_ );
+	my @rows = map { [ split(/\t/, $_, -1) ] } split(/\n/, $args{matrix});
 
-	my @cmd1 = ["awk", $tr_awk_line];
-	run @cmd1,"<",\$matrix, ">", \my $stdout;
-	return($stdout);
+	my $max = 0;
+	for my $r (@rows) {
+		$max = @$r if @$r > $max;
+	}
+
+	my @out;
+	for my $col (0 .. $max-1) {
+		push @out, join("\t", map { $_->[$col] // "" } @rows);
+	}
+
+	return join("\n", @out) . "\n";
 }
+sub remove_empty_columns {
+	my (%args) = @_;
+	my $matrix = $args{matrix};
 
+	my @rows = map { [ split(/\t/, $_, -1) ] } split(/\n/, $matrix);
+	return $matrix if !@rows;
+
+	my $cols = 0;
+	for my $r (@rows) {
+		$cols = @$r if @$r > $cols;
+	}
+
+	my @keep;
+	COL: for my $c (0 .. $cols-1) {
+		for my $r (@rows) {
+			next if $r->[$c] eq "";
+			next if $r->[$c] =~ /^\s*$/;
+			$keep[$c] = 1;
+			next COL;
+		}
+		$keep[$c] = 0;
+	}
+
+	my @clean;
+	for my $r (@rows) {
+		my @new = map { $r->[$_] } grep { $keep[$_] } (0 .. $cols-1);
+		push @clean, join("\t", @new);
+	}
+
+	return join("\n", @clean) . "\n";
+}
 sub get_header {
 	my %args = (
 		matrix => undef,
