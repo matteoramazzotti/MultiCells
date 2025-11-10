@@ -54,10 +54,16 @@ Make the selected_gse.txt file, a list of unique GSEs from the downladed index:
 	awk -F "\t" '{print $2}' indexes/index.tsv.selected | sort | uniq > selected_gse.txt
 ```
 
-Make the selected_gsm.txt file, a list of unique GSMs from the downladed index:
+Make the selected_gsm.txt file, a list of unique GSMs from the downloaded index:
 
 ```
 	awk -F "\t" '{print $3}' indexes/index.tsv.selected | sort | uniq > selected_gsm.txt
+```
+
+Make the gsm_to_gse_selected.tsv file, a list of unique GSMs related to their GSE from the downloaded index:
+
+```
+awk -F"\t" '{print $3"\t"$2}' mcf7_ephts_geo_index.tsv.selected > gsm_to_gse_selected.tsv
 ```
 
 ### 2 - **2.get_matrixes.pl**
@@ -80,7 +86,7 @@ Convert entrez gene IDs to gene symbols:
 ### 4 - **4.pca_cluster_selector.R**
 
 In R environment, copy istructions from 4.pca_cluster_selector.R.
-You will be prompted to select groups in the pca plot. To increase the number of groups to select, edit the *g* argument in the +groupCapture* function.
+You will be prompted to select groups in the pca plot. To increase the number of groups to select, edit the *g* argument in the *groupCapture* function.
 You will obtain selected_data.tsv and selected_data.tsv files.
 
 
