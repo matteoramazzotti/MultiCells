@@ -39,6 +39,9 @@ pca_df <- data.frame(
   PC2 = pca$x[,2]
 )
 
+pca_df<-pca_df[complete.cases(pca_df), ]
+
+
 # plot and select
 
 res <- groupCapture(
