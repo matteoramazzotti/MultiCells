@@ -17,8 +17,8 @@ res <- results(dds, contrast=c("GROUP","G1","G2"))
 #res <- lfcShrink(dds, coef=paste(sep="_","GROUP","G2","vs","G1"), type="apeglm")
 
 res_filtered<-res[complete.cases(res), ]
-res_filtered <- res_filtered[res_filtered$padj < 0.05 & abs(res_filtered$log2FoldChange) > 1.5 ,]
-
-
-
 write.table(res_filtered, file = "de_data.tsv", sep = "\t")
+
+res_filtered <- res_filtered[res_filtered$padj < 0.05 & abs(res_filtered$log2FoldChange) > 1.5 ,]
+write.table(res_filtered, file = "de_data_subset.tsv", sep = "\t")
+
