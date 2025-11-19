@@ -62,7 +62,7 @@ Make the selected_gsm.txt file, a list of unique GSMs from the downloaded index:
 Make the gsm_to_gse_selected.tsv file, a list of unique GSMs related to their GSE from the downloaded index:
 
 ```
-awk -F"\t" '{print $3"\t"$2}' indexes/index.tsv.selected > gsm_to_gse_selected.tsv
+	awk -F"\t" '{print $3"\t"$2}' indexes/index.tsv.selected > gsm_to_gse_selected.tsv
 ```
 
 ### 2 - **2.get_matrixes.pl**
@@ -70,7 +70,7 @@ awk -F"\t" '{print $3"\t"$2}' indexes/index.tsv.selected > gsm_to_gse_selected.t
 Download the count matrixes:
 
 ```
-	perl 2.get_matrixes.pl
+	perl 2.get_matrixes.pl -l destination_folder/selected_gsm.txt -L destination_folder/selected_gse.txt -O destination_folder 
 
 ```
 
