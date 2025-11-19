@@ -37,12 +37,14 @@ my @gsms;
 open(IN,$gse_sel_file);
 while(<IN>) {
 	chomp;
+	next if ($_ eq "");
 	push(@gses,$_);
 }
 close(IN);
 open(IN,$gsm_sel_file);
 while(<IN>) {
 	chomp;
+	next if ($_ eq "");
 	push(@gsms,$_);
 }
 close(IN);
