@@ -72,7 +72,7 @@ if ($query_file) {
 }
 
 
-setup_dir("indexes");
+setup_dir("$out_folder/indexes");
 
 
 foreach my $qObj (@queries) {
