@@ -38,7 +38,7 @@ Start by making an index of the available GEOs, we will use a query to fetch all
 ```
 	query='"expression profiling by high throughput sequencing"[Dataset Type] AND "MCF7"[All Fields] AND "rnaseq counts"[Filter] AND "Homo sapiens"[porgn] AND "breast"[All Fields]"'
 
-	perl 1.query_performer.pl -q "${query}" -p your_name_for_files_here
+	perl 1.query_performer.pl -q "${query}" -p your_name_for_files_here -O destination_folder
 ```
 
 The output index will be stored in the indexes folder and will have a name like query_your_name_for_files_here
