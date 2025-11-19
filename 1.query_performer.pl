@@ -8,7 +8,7 @@ use Encode;
 use Encode::Guess;
 
 use File::Path qw(make_path);
-
+use FindBin qw($Bin);
 use IPC::Run 'run';
 
 use Getopt::Long;
