@@ -49,10 +49,6 @@ while(<IN>) {
 }
 close(IN);
 
-say Dumper \@gses;
-say Dumper \@gsms;
-exit;
-
 setup_dir("${out_folder}/raw_counts");
 setup_dir("${out_folder}/raw_counts/mat");
 
