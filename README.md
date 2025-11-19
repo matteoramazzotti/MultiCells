@@ -50,19 +50,19 @@ Select the GSMs to keep (e.g. Control samples) and with them make the index.tsv.
 Make the selected_gse.txt file, a list of unique GSEs from the downladed index:
 
 ```
-	awk -F "\t" '{print $2}' indexes/index.tsv.selected | sort | uniq > selected_gse.txt
+	awk -F "\t" '{print $2}' destination_folder/indexes/index.tsv.selected | sort | uniq > destination_folder/selected_gse.txt
 ```
 
 Make the selected_gsm.txt file, a list of unique GSMs from the downloaded index:
 
 ```
-	awk -F "\t" '{print $3}' indexes/index.tsv.selected | sort | uniq > selected_gsm.txt
+	awk -F "\t" '{print $3}' destination_folder/indexes/index.tsv.selected | sort | uniq > destination_folder/selected_gsm.txt
 ```
 
 Make the gsm_to_gse_selected.tsv file, a list of unique GSMs related to their GSE from the downloaded index:
 
 ```
-	awk -F"\t" '{print $3"\t"$2}' indexes/index.tsv.selected > gsm_to_gse_selected.tsv
+	awk -F"\t" '{print $3"\t"$2}' destination_folder/indexes/index.tsv.selected > destination_folder/gsm_to_gse_selected.tsv
 ```
 
 ### 2 - **2.get_matrixes.pl**
