@@ -6,10 +6,32 @@ use Data::Dumper;
 use IPC::Run 'run';
 use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
 use File::Path qw(make_path);
+use FindBin qw($Bin);
+
+use Getopt::Long;
+
+Getopt::Long::Configure ("bundling","no_ignore_case");
+
+GetOptions( 
+	'help|h' => \my $help,
+	'verbose|v+' => \my $verbose,
+	'gsm_list|l=s' => \my $gsm_sel_file,
+	'gse_list|L=s' => \my $gse_sel_file,
+	'out_folder|O=s' => \my $out_folder
+);
 
 
-my $gse_sel_file = "selected_gse.txt";
-my $gsm_sel_file = "selected_gsm.txt";
+
+if (!$gse_sel_file) {
+	$gse_sel_file = "selected_gse.txt";
+}
+if (!$gsm_sel_file) {
+	$gsm_sel_file = "selected_gsm.txt";
+}
+if (!$out_folder) {
+	$out_folder = "$Bin";
+}
+
 my @gses;
 my @gsms;
 open(IN,$gse_sel_file);
@@ -25,8 +47,12 @@ while(<IN>) {
 }
 close(IN);
 
-setup_dir("raw_counts");
-setup_dir("raw_counts/mat");
+say Dumper \@gses;
+say Dumper \@gsms;
+exit;
+
+setup_dir("${out_folder}/raw_counts");
+setup_dir("${out_folder}/raw_counts/mat");
 
 my $header;
 my @matches;
@@ -34,7 +60,7 @@ foreach my $gse (@gses) {
 
 	my $matrix = get_matrix(gse=>$gse);
 	chomp $matrix;
-	save_matrix(path=>"raw_counts/mat/${gse}_raw.txt",matrix=>$matrix);
+	save_matrix(path=>"${out_folder}/raw_counts/mat/${gse}_raw.txt",matrix=>$matrix);
 	my $matrix_tr = transpose_matrix(matrix=>$matrix);
 	$matrix_tr = remove_empty_columns(matrix => $matrix_tr);
 	chomp $matrix_tr;
@@ -51,7 +77,7 @@ my $global_match_tr = transpose_matrix(matrix=>$global_match);
 # $global_match_tr =~ s/ /\t/g;
 $global_match_tr = remove_empty_columns(matrix => $global_match_tr);
 
-open(OUT,">","raw_counts/matrix.tsv");
+open(OUT,">","${out_folder}/raw_counts/matrix.tsv");
 print OUT $global_match_tr;
 close(OUT);
 
