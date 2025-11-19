@@ -79,16 +79,16 @@ Download the count matrixes:
 Convert entrez gene IDs to gene symbols:
 
 ```
-	perl 3.cross_annotation.pl raw_counts/matrix.tsv > matrix_symbol.tsv
+	perl 3.cross_annotation.pl destination_folder/raw_counts/matrix.tsv > destination_folder/matrix_symbol.tsv
 ```
 
 ### 4 - **4.pca_cluster_selector.R**
 
-In R environment, copy istructions from 4.pca_cluster_selector.R.
+In R environment, copy istructions from 4.pca_cluster_selector.R. Be sure to set all the paths to the desired folder (i.e. the *destination_folder* from earlier sections).
 You will be prompted to select groups in the pca plot. To increase the number of groups to select, edit the *g* argument in the *groupCapture* function.
 You will obtain selected_data.tsv and selected_data.tsv files.
 
 
 ### 5 - **5.de.R**
 
-In R environment, copy istructions from 5.de.R and perform the differential expression analyses, remember to edit the instructions to accomodate the groups you selected.
+In R environment, copy istructions from 5.de.R and perform the differential expression analyses, remember to edit the instructions to accomodate the groups you selected and be sure to set all the paths to the desired folder (i.e. the *destination_folder* from earlier sections).
