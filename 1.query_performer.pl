@@ -22,14 +22,17 @@ GetOptions(
 	'query-file|Q=s' => \my $query_file,
 	'query-prefix|p=s' => \my $query_prefix, # string (when no quey file is provided) or location in table (when tsv file is provided) or none (query number)
 	'max-result|m=i' => \my $max_res, # max number of series
-	'check-counts|c' => \my $check_counts
+	'check-counts|c' => \my $check_counts,
+	'out_folder|O=s' => \my $out_folder
 );
 
 if (!$query && !$query_file) {
 	say STDERR "No query and no query file provided";
 	die;
 }
-
+if (!$out_folder) {
+	$out_folder = "$Bin";
+}
 
 
 
@@ -73,8 +76,8 @@ setup_dir("indexes");
 
 
 foreach my $qObj (@queries) {
-	open(OUT,">","indexes/query_$qObj->{id}.tsv");
-	open(LOG,">","indexes/query_$qObj->{id}.log");
+	open(OUT,">","$out_folder/indexes/query_$qObj->{id}.tsv");
+	open(LOG,">","$out_folder/indexes/query_$qObj->{id}.log");
 	say LOG "Performing: $qObj->{query}";
 	say STDERR "Performing: $qObj->{query}";
 	my $q = $qObj->{query};
