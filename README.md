@@ -35,7 +35,7 @@ Being RNA-seq count data, the obtained data can be analyzed with popular package
 
 Start by making an index of the available GEOs, we will use a query to fetch all the high throughput sequencing MCF7 related experiments: 
 
-```
+```bash
 	query='"expression profiling by high throughput sequencing"[Dataset Type] AND "MCF7"[All Fields] AND "rnaseq counts"[Filter] AND "Homo sapiens"[porgn] AND "breast"[All Fields]"'
 
 	perl 1.query_performer.pl -q "${query}" -p your_name_for_files_here -O destination_folder
@@ -49,19 +49,19 @@ Select the GSMs to keep (e.g. Control samples) and with them make the index.tsv.
 
 Make the selected_gse.txt file, a list of unique GSEs from the downladed index:
 
-```
+```bash
 	awk -F "\t" '{print $2}' destination_folder/indexes/index.tsv.selected | sort | uniq > destination_folder/selected_gse.txt
 ```
 
 Make the selected_gsm.txt file, a list of unique GSMs from the downloaded index:
 
-```
+```bash
 	awk -F "\t" '{print $3}' destination_folder/indexes/index.tsv.selected | sort | uniq > destination_folder/selected_gsm.txt
 ```
 
 Make the gsm_to_gse_selected.tsv file, a list of unique GSMs related to their GSE from the downloaded index:
 
-```
+```bash
 	awk -F"\t" '{print $3"\t"$2}' destination_folder/indexes/index.tsv.selected > destination_folder/gsm_to_gse_selected.tsv
 ```
 
@@ -69,7 +69,7 @@ Make the gsm_to_gse_selected.tsv file, a list of unique GSMs related to their GS
 
 Download the count matrixes:
 
-```
+```bash
 	perl 2.get_matrixes.pl -l destination_folder/selected_gsm.txt -L destination_folder/selected_gse.txt -O destination_folder 
 
 ```
@@ -78,7 +78,7 @@ Download the count matrixes:
 
 Convert entrez gene IDs to gene symbols:
 
-```
+```bash
 	perl 3.cross_annotation.pl destination_folder/raw_counts/matrix.tsv > destination_folder/matrix_symbol.tsv
 ```
 
