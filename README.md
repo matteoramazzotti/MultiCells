@@ -41,11 +41,22 @@ Start by making an index of the available GEOs, we will use a query to fetch all
 	perl 1.query_performer.pl -q "${query}" -p your_name_for_files_here -O destination_folder
 ```
 
-The output index will be stored in the indexes folder and will have a name like query_your_name_for_files_here
+The output index will be stored in the *destination_folder/indexes* folder and will have a name like *query_your_name_for_files_here*. Ideally, *destination_folder* should be named after the cell line considered, e.g. "MCF7".
 
 ### 1b - **Select Series of Interest**
 
-Select the GSMs to keep (e.g. Control samples) and with them make the index.tsv.selected file (a manually curated subset of the previous index that we have downloaded). In the following lines I assume that you store it in the indexes folder.
+Select the GSMs to keep (e.g. Control samples) and with them make the *index.tsv.selected* file (a manually curated subset of the previous index that we have downloaded). 
+To help yourself in this step, it is handy to do:
+
+```bash
+	ALIAS="MDAMB231|MDA-MB-231"
+	grep -i --perl-regexp $ALIAS  MDAMB231/indexes/query_mdamb231.tsv | grep -i --perl-regexp "ctrl|control" > query_mdamb231.subset.tsv
+```
+> [!NOTE]  
+> Edit the ALIAS variable to accomodate keywords compatible with your cell line separated by "|" characters. The `grep` command with the `-i` flag is case insensitive, so don't worry about lower and upper case letters.
+
+Then read the content of this file and select the experiments to keep, storing them into the *index.tsv.selected* file. In the following lines I assume that you store it in the indexes folder.
+
 
 Make the selected_gse.txt file, a list of unique GSEs from the downladed index:
 
