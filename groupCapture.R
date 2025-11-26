@@ -33,7 +33,9 @@ groupCapture = function(
 	auto_scale=TRUE,
 	range=c(-100,100),
 	labels_on = TRUE,
-	labels = c("")
+	labels = c(""),
+	suffix = c(format(Sys.time(), "%b_%d_%Y_%H_%M_%S")),
+	outFolder = c(".")
 ) {
 	res=list()
 
@@ -46,6 +48,8 @@ groupCapture = function(
 		min <- abs(round(min(x_min,y_min) - 10))
 		range=c(-min,max)
 	}
+	plot.new()
+	par(bg = 'white')
 	plot(
 		input[,1], input[,2],
 		xlim = range,
@@ -98,5 +102,16 @@ groupCapture = function(
 		}
 		res = list(tmp,tmp2)
 	}
+	dir.create(file.path(outFolder,"plots"), recursive=TRUE ,showWarnings = FALSE)
+	dev.copy2pdf(file=file.path(outFolder,"plots",paste0("pca_",suffix,".pdf")))
+	dev.print(
+		device=png, 
+		filename=file.path(outFolder,"plots",paste0("pca_",suffix,".png")),
+		units="px",
+		height=1000,
+		width=1000,
+		res = 150
+	)
+	dev.off()
 	return(res)
 }

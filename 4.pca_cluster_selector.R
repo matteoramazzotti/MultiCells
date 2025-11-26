@@ -49,6 +49,7 @@ pca_df<-pca_df[complete.cases(pca_df), ]
 
 
 # plot and select
+timestamp<-format(Sys.time(), "%b_%d_%Y_%H_%M_%S")
 
 res <- groupCapture(
 	pca_df,
@@ -60,7 +61,9 @@ res <- groupCapture(
 	out = "df",
 	auto_scale=FALSE,
 	range = c(-200,200),
-	labels = colnames_by_gse
+	labels = colnames_by_gse,
+	suffix = timestamp,
+	outFolder = main_folder
 )
 
 metadata = data.frame(
@@ -70,7 +73,6 @@ metadata = data.frame(
 )
 
 
-timestamp<-format(Sys.time(), "%b_%d_%Y_%H_%M_%S")
 # export 
 write.table(res[[1]], file = file.path(main_folder,paste0("selected_data_",timestamp,".tsv")), sep = "\t")
 write.table(metadata, file = file.path(main_folder,paste0("selected_metadata_",timestamp,".tsv")), sep = "\t",row.names=FALSE)
