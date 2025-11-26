@@ -1,9 +1,15 @@
 library(DESeq2)
 source("groupCapture.R")
 
-counts <- read.delim("matrix_symbol.tsv",sep="\t",row.names = 1)
+### EDIT THE FOLLOWING ######
+
+main_folder <- "MCF7"
+
+##############################
+
+counts <- read.delim(file.path(main_folder,"matrix_symbol.tsv"),sep="\t",row.names = 1)
 # gsm_to_gse <- read.delim("gsm_to_gse_selected_no_singlets.tsv",sep="\t",header=FALSE )
-gsm_to_gse <- read.delim("gsm_to_gse_selected.tsv",sep="\t",header=FALSE )
+gsm_to_gse <- read.delim(file.path(main_folder,"gsm_to_gse_selected.tsv"),sep="\t",header=FALSE )
 counts <- counts[rowSums(counts) > 10, ] #remove low count genes before normalization
 
 
@@ -64,7 +70,7 @@ metadata = data.frame(
 )
 
 
-
+timestamp<-format(Sys.time(), "%b_%d_%Y_%H_%M_%S")
 # export 
-write.table(res[[1]], file = "selected_data.tsv", sep = "\t")
-write.table(metadata, file = "selected_metadata.tsv", sep = "\t",row.names=FALSE)
+write.table(res[[1]], file = file.path(main_folder,paste0("selected_data_",timestamp,".tsv")), sep = "\t")
+write.table(metadata, file = file.path(main_folder,paste0("selected_metadata_",timestamp,".tsv")), sep = "\t",row.names=FALSE)
