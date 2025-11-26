@@ -97,9 +97,18 @@ Convert entrez gene IDs to gene symbols:
 
 In R environment, copy istructions from 4.pca_cluster_selector.R. Be sure to set all the paths to the desired folder (i.e. the *destination_folder* from earlier sections).
 You will be prompted to select groups in the pca plot. To increase the number of groups to select, edit the *g* argument in the *groupCapture* function.
-You will obtain selected_data.tsv and selected_data.tsv files.
+You will obtain timestamp marked files: e.g. selected_data_Nov_26_2025_09_11_10.tsv and selected_metadata_Nov_26_2025_09_11_10.tsv files.
 
 
 ### 5 - **5.de.R**
 
-In R environment, copy istructions from 5.de.R and perform the differential expression analyses, remember to edit the instructions to accomodate the groups you selected and be sure to set all the paths to the desired folder (i.e. the *destination_folder* from earlier sections).
+
+Perform differential expression analysis using timestamp marked files obtain previously:
+
+```bash
+	Rscript 5.de.R -c MCF7/selected_data_Nov_26_2025_09_11_10.tsv -m MCF7/selected_metadata_Nov_26_2025_09_11_10.tsv -M MCF7
+```
+
+You will obtain more timestamp marked files: e.g. de_data_Nov_26_2025_09_11_10.tsv and de_data_subset_Nov_26_2025_09_11_10.tsv files.
+
+
