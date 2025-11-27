@@ -56,6 +56,7 @@ for (file in files) {
 	# pdf(file.path(".",paste(file,"volcano.pdf",sep="_")))
 	df<-read.delim(file,sep="\t")
 	df_clean<-df[complete.cases(df), ]
+	df_clean<-df_clean[df_clean$padj > 0,]
 	df_clean$diffexpressed <- "NO"
 	df_clean$diffexpressed[df_clean$log2FoldChange > log2_fc_thr & df_clean$padj < p_value_thr] <- "UP"
 	df_clean$diffexpressed[df_clean$log2FoldChange < -log2_fc_thr & df_clean$padj < p_value_thr] <- "DOWN"
@@ -94,6 +95,7 @@ for (file in files) {
 
 	ylimit <- -log10(min(df_clean$padj))
 	# ylimit <- CAP_Y
+
 
 
 	# pdf(file.path("analysis",analysis_id,"plots","volcano",filename))
