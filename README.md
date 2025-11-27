@@ -112,3 +112,12 @@ Perform differential expression analysis using timestamp marked files obtain pre
 You will obtain more timestamp marked files: e.g. de_data_Nov_26_2025_09_11_10.tsv and de_data_subset_Nov_26_2025_09_11_10.tsv files.
 
 
+### 5 - **6.volcano_plot.R**
+
+Obtain volcano plot based on total de data:
+
+```bash
+Rscript 6.volcano_plot.R -i MCF7 -R MCF7/de_data_Nov_26_2025_09_11_10.tsv -T 1.5 -t 0.05
+```
+
+`-T 1.5` stands for a log2FC threshold of 1.5 and `-t 0.05` stands for a padj threshold of 0.05. Plots are stored in the plots folder.
