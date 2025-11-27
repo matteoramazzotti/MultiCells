@@ -30,8 +30,8 @@ dds <- DESeqDataSetFromMatrix(
 dds <- DESeq(
 	dds
 )
-res <- results(dds, contrast=c("GROUP","G1","G2"))
-#res <- lfcShrink(dds, coef=paste(sep="_","GROUP","G2","vs","G1"), type="apeglm")
+# res <- results(dds, contrast=c("GROUP","G1","G2"))
+res <- lfcShrink(dds, coef=paste(sep="_","GROUP","G2","vs","G1"), type="apeglm")
 
 res_filtered<-res[complete.cases(res), ]
 write.table(res_filtered, file = file.path(main_folder,paste0("de_data_",timestamp)), sep = "\t")
