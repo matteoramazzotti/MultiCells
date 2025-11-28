@@ -131,4 +131,4 @@ Finally, we perform an enrichment analysis using clusterProfiler:
 Rscript clusterProfiler.R --genes MCF7/de_data_subset_Nov_26_2025_09_11_10.tsv --gmt gmt/c5.go.bp.v2025.1.Hs.symbols.gmt --out-prefix c5.go.bp --out-dir MCF7
 ```
 
-Be sure to use the `de_data_subset_` file with the `--genes` argument. The `--out-prefix` argument is used to customize the name of the output file, we are using one based on the gmt employed for this analysis, so the final output name will be `cp_results_c5.go.bp.tsv`.
+Be sure to use the `de_data_subset_` file with the `--genes` argument. The `--out-prefix` argument is used to customize the name of the output file, we are using one based on the gmt employed for this analysis, so the final output name will be `cp_results_c5.go.bp.tsv`. This will also return a barplot with the top 20 pathways enriched.
