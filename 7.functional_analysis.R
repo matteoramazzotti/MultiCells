@@ -35,8 +35,13 @@ enriched <- clusterProfiler::enricher(
 	gene = myInput,
 	TERM2GENE = gene_sets,
 )
+
+filename<-sub(".tsv","",opt$genes)
+filename<-sub("^.+?/","",filename)
+timestamp<-sub("de_data_subset_","",filename)
+
 myDF <- data.frame(enriched$ID,enriched$Count,enriched$GeneRatio,enriched$pvalue,enriched$p.adjust)
-write.table(myDF,paste(opt['out-dir'],"/","cp_results_",opt['out-prefix'],".tsv",sep=""), sep="\t",row.names=FALSE,quote=FALSE)
+write.table(myDF,paste(opt['out-dir'],"/","cp_results_",opt['out-prefix'],"_",timestamp,".tsv",sep=""), sep="\t",row.names=FALSE,quote=FALSE)
 
 df_top<-myDF[order(myDF$enriched.p.adjust,decreasing = FALSE),]
 df_top<-head(df_top,20)
@@ -45,6 +50,7 @@ df_top$enriched.ID <- factor(
 	df_top$enriched.ID,
   levels = rev(df_top$enriched.ID)
 )
+
 
 
 ggplot(
@@ -78,7 +84,9 @@ labs(
 	x = "Gene Count",
 	title = ""
 )
-ggsave(paste(opt['out-dir'],"/plots/","barplot_top_",opt['out-prefix'],".png",sep=""),
+
+
+ggsave(paste(opt['out-dir'],"/plots/","barplot_top_",opt['out-prefix'],"_",timestamp,".png",sep=""),
 	width = 1920,
   height = 1080,
   units = "px",
