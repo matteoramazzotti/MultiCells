@@ -112,7 +112,7 @@ Perform differential expression analysis using timestamp marked files obtain pre
 You will obtain more timestamp marked files: e.g. de_data_Nov_26_2025_09_11_10.tsv and de_data_subset_Nov_26_2025_09_11_10.tsv files.
 
 
-### 5 - **6.volcano_plot.R**
+### 6 - **6.volcano_plot.R**
 
 Obtain volcano plot based on total de data:
 
@@ -121,3 +121,14 @@ Rscript 6.volcano_plot.R -i MCF7 -R MCF7/de_data_Nov_26_2025_09_11_10.tsv -T 1.5
 ```
 
 `-T 1.5` stands for a log2FC threshold of 1.5 and `-t 0.05` stands for a padj threshold of 0.05. Plots are stored in the plots folder.
+
+
+### 7 - **7.functional_analysis.R**
+
+Finally, we perform an enrichment analysis using clusterProfiler:
+
+```bash
+	Rscript clusterProfiler.R --genes MCF7/de_data_subset_Nov_26_2025_09_11_10.tsv --gmt gmt/c5.go.bp.v2025.1.Hs.symbols.gmt --out-prefix c5.go.bp --out-dir MCF7
+```
+
+Be sure to use the `de_data_subset_` file with the `--genes` argument. The `--out-prefix` argument is used to customize the name of the output file, we are using one based on the gmt employed for this analysis, so the final output name will be `cp_results_c5.go.bp.tsv`.
