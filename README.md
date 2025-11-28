@@ -36,9 +36,9 @@ Being RNA-seq count data, the obtained data can be analyzed with popular package
 Start by making an index of the available GEOs, we will use a query to fetch all the high throughput sequencing MCF7 related experiments: 
 
 ```bash
-	query='"expression profiling by high throughput sequencing"[Dataset Type] AND "MCF7"[All Fields] AND "rnaseq counts"[Filter] AND "Homo sapiens"[porgn] AND "breast"[All Fields]"'
+query='"expression profiling by high throughput sequencing"[Dataset Type] AND "MCF7"[All Fields] AND "rnaseq counts"[Filter] AND "Homo sapiens"[porgn] AND "breast"[All Fields]"'
 
-	perl 1.query_performer.pl -q "${query}" -p your_name_for_files_here -O destination_folder
+perl 1.query_performer.pl -q "${query}" -p your_name_for_files_here -O destination_folder
 ```
 
 The output index will be stored in the *destination_folder/indexes* folder and will have a name like *query_your_name_for_files_here*. Ideally, *destination_folder* should be named after the cell line considered, e.g. "MCF7".
@@ -49,8 +49,8 @@ Select the GSMs to keep (e.g. Control samples) and with them make the *index.tsv
 To help yourself in this step, it is handy to do:
 
 ```bash
-	ALIAS="MDAMB231|MDA-MB-231"
-	grep -i --perl-regexp $ALIAS  MDAMB231/indexes/query_mdamb231.tsv | grep -i --perl-regexp "ctrl|control" > query_mdamb231.subset.tsv
+ALIAS="MDAMB231|MDA-MB-231"
+grep -i --perl-regexp $ALIAS  MDAMB231/indexes/query_mdamb231.tsv | grep -i --perl-regexp "ctrl|control" > query_mdamb231.subset.tsv
 ```
 > [!NOTE]  
 > Edit the ALIAS variable to accomodate keywords compatible with your cell line separated by "|" characters. The `grep` command with the `-i` flag is case insensitive, so don't worry about lower and upper case letters.
@@ -61,19 +61,19 @@ Then read the content of this file and select the experiments to keep, storing t
 Make the selected_gse.txt file, a list of unique GSEs from the downladed index:
 
 ```bash
-	awk -F "\t" '{print $2}' destination_folder/indexes/index.tsv.selected | sort | uniq > destination_folder/selected_gse.txt
+awk -F "\t" '{print $2}' destination_folder/indexes/index.tsv.selected | sort | uniq > destination_folder/selected_gse.txt
 ```
 
 Make the selected_gsm.txt file, a list of unique GSMs from the downloaded index:
 
 ```bash
-	awk -F "\t" '{print $3}' destination_folder/indexes/index.tsv.selected | sort | uniq > destination_folder/selected_gsm.txt
+awk -F "\t" '{print $3}' destination_folder/indexes/index.tsv.selected | sort | uniq > destination_folder/selected_gsm.txt
 ```
 
 Make the gsm_to_gse_selected.tsv file, a list of unique GSMs related to their GSE from the downloaded index:
 
 ```bash
-	awk -F"\t" '{print $3"\t"$2}' destination_folder/indexes/index.tsv.selected > destination_folder/gsm_to_gse_selected.tsv
+awk -F"\t" '{print $3"\t"$2}' destination_folder/indexes/index.tsv.selected > destination_folder/gsm_to_gse_selected.tsv
 ```
 
 ### 2 - **2.get_matrixes.pl**
@@ -81,7 +81,7 @@ Make the gsm_to_gse_selected.tsv file, a list of unique GSMs related to their GS
 Download the count matrixes:
 
 ```bash
-	perl 2.get_matrixes.pl -l destination_folder/selected_gsm.txt -L destination_folder/selected_gse.txt -O destination_folder 
+perl 2.get_matrixes.pl -l destination_folder/selected_gsm.txt -L destination_folder/selected_gse.txt -O destination_folder 
 
 ```
 
@@ -90,7 +90,7 @@ Download the count matrixes:
 Convert entrez gene IDs to gene symbols:
 
 ```bash
-	perl 3.cross_annotation.pl destination_folder/raw_counts/matrix.tsv > destination_folder/matrix_symbol.tsv
+perl 3.cross_annotation.pl destination_folder/raw_counts/matrix.tsv > destination_folder/matrix_symbol.tsv
 ```
 
 ### 4 - **4.pca_cluster_selector.R**
@@ -106,7 +106,7 @@ You will obtain timestamp marked files: e.g. selected_data_Nov_26_2025_09_11_10.
 Perform differential expression analysis using timestamp marked files obtain previously:
 
 ```bash
-	Rscript 5.de.R -c MCF7/selected_data_Nov_26_2025_09_11_10.tsv -m MCF7/selected_metadata_Nov_26_2025_09_11_10.tsv -M MCF7
+Rscript 5.de.R -c MCF7/selected_data_Nov_26_2025_09_11_10.tsv -m MCF7/selected_metadata_Nov_26_2025_09_11_10.tsv -M MCF7
 ```
 
 You will obtain more timestamp marked files: e.g. de_data_Nov_26_2025_09_11_10.tsv and de_data_subset_Nov_26_2025_09_11_10.tsv files.
@@ -128,7 +128,7 @@ Rscript 6.volcano_plot.R -i MCF7 -R MCF7/de_data_Nov_26_2025_09_11_10.tsv -T 1.5
 Finally, we perform an enrichment analysis using clusterProfiler:
 
 ```bash
-	Rscript clusterProfiler.R --genes MCF7/de_data_subset_Nov_26_2025_09_11_10.tsv --gmt gmt/c5.go.bp.v2025.1.Hs.symbols.gmt --out-prefix c5.go.bp --out-dir MCF7
+Rscript clusterProfiler.R --genes MCF7/de_data_subset_Nov_26_2025_09_11_10.tsv --gmt gmt/c5.go.bp.v2025.1.Hs.symbols.gmt --out-prefix c5.go.bp --out-dir MCF7
 ```
 
 Be sure to use the `de_data_subset_` file with the `--genes` argument. The `--out-prefix` argument is used to customize the name of the output file, we are using one based on the gmt employed for this analysis, so the final output name will be `cp_results_c5.go.bp.tsv`.
